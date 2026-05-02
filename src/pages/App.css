@@ -182,3 +182,29 @@
     border-right-color: var(--border);
   }
 } */
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.fieldWrapper {
+  width: 205px;
+  height: 205px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid grey;
+}
+
+.btnWrapper {
+  display: flex;
+}
+
+.triesWrapper {
+  display: flex;
+}
