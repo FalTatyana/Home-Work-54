@@ -2,4 +2,18 @@
     width: 30px;
     height: 30px;
     background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid grey;
+}
+
+.cellOpen {
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid grey;
 }

@@ -1,8 +1,12 @@
 import "./reset.css"
 
-const Reset = () => {
+interface Props {
+  onClickReset: () => void
+}
+
+const Reset = ({ onClickReset }: Props) => {
   return (
-    <button className="btn">Reset</button>
+    <button onClick={onClickReset} className="btn">Reset</button>
   )
 }
 

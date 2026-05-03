@@ -2,12 +2,14 @@ import './Cell.css'
 
 interface Props {
   cell: string;
+  clicked: boolean;
   id: number;
+  onClickCell: () => void
 }
 
-const Cell = ({cell}: Props) => {
+const Cell = ({cell, onClickCell, clicked}: Props) => {
   return (
-    <div className="cell">{cell}</div>
+    <div onClick={onClickCell} className={clicked ? "cellOpen" : "cell"}>{clicked ? cell : ''}</div>
   )
 }
 

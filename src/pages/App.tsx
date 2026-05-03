@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import './App.css'
 import Cell from '../components/cell/Cell';
 import Reset from '../components/button/Reset';
@@ -13,26 +13,46 @@ interface Cell {
 }
 
 const App = () => {
-  const [field, setField] = useState<Cell[]>([
-  ]);
+
+  const [count, setCount] = useState(0);
 
   const CreateField = () => {
     const newField = [];
+    const random: number = Math.floor(Math.random() * 36);
+
     for (let i = 0; i < 36; i++) {
       const newCell = {
         hasItem: false,
         clicked: false,
         cell: '',
         id: i + 1
+      };
+
+      if (random === i) {
+        newCell.hasItem = true;
+        newCell.cell = '❌';        
       }
       newField.push(newCell);
     };
-    setField(newField);
+    return newField;
   };
 
-  useEffect(() => {
-    CreateField();
-  }, []);
+  const ResetGame = () => {
+    setCount(0);
+    const newField = CreateField();
+    setField(newField);
+  }
+
+  const [field, setField] = useState(CreateField());
+
+
+  const OpenCell = (id: number) => {
+    setCount(prev => prev + 1);
+    const copyField = [...field];
+    const index = copyField.findIndex(cell => cell.id === id);
+    copyField[index].clicked = true;
+    setField(copyField)
+  }
 
   return (
     <>
@@ -42,14 +62,15 @@ const App = () => {
             key={cell.id}
             cell={cell.cell}
             id={cell.id}
-          />
+            clicked={cell.clicked}
+            onClickCell={() => OpenCell(cell.id)} />
         ))}
       </div>
       <div className='triesWrapper'>
-          <Tries count={0}/>
+          <Tries counter={count}/>
       </div>
       <div className='btnWrapper'>
-          <Reset/>
+          <Reset onClickReset={ResetGame}/>
       </div>
     </>
 

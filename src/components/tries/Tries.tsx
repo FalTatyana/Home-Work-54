@@ -1,12 +1,12 @@
 import './Tries.css'
 
 interface Props {
-    count: number
+    counter: number
 }
 
-const Tries = ({ count }: Props) => {
+const Tries = ({ counter }: Props) => {
     return (
-        <div className="tries">Tries: {count}</div>
+        <div className="tries">Tries: {counter}</div>
     )
 }
 
