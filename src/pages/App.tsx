@@ -1,9 +1,9 @@
-import { useState, type CSSProperties } from 'react';
+import { useState } from 'react';
 import './App.css'
 import Cell from '../components/cell/Cell';
 import Reset from '../components/button/Reset';
 import Tries from '../components/tries/Tries';
-
+import CreateField from '../components/field/CreateField'
 
 interface Cell {
   cell: string,
@@ -14,45 +14,44 @@ interface Cell {
 
 const App = () => {
 
+  const [field, setField] = useState(CreateField());
   const [count, setCount] = useState(0);
-
-  const CreateField = () => {
-    const newField = [];
-    const random: number = Math.floor(Math.random() * 36);
-
-    for (let i = 0; i < 36; i++) {
-      const newCell = {
-        hasItem: false,
-        clicked: false,
-        cell: '',
-        id: i + 1
-      };
-
-      if (random === i) {
-        newCell.hasItem = true;
-        newCell.cell = '❌';        
-      }
-      newField.push(newCell);
-    };
-    return newField;
-  };
+  const [gameOver, setGameOver] = useState(false);
 
   const ResetGame = () => {
     setCount(0);
+    setGameOver(false);
     const newField = CreateField();
     setField(newField);
-  }
-
-  const [field, setField] = useState(CreateField());
-
+  };
 
   const OpenCell = (id: number) => {
-    setCount(prev => prev + 1);
-    const copyField = [...field];
-    const index = copyField.findIndex(cell => cell.id === id);
-    copyField[index].clicked = true;
-    setField(copyField)
-  }
+    if (gameOver === false) {
+      const copyField = [...field];
+      const index = copyField.findIndex(cell => cell.id === id);
+      const clickedCell = copyField[index];
+
+      if (clickedCell.clicked === true) {
+        return;
+      } else {
+        clickedCell.clicked = true;
+        const newCount = count + 1;
+        setCount(newCount);
+      }
+
+      if (copyField[index].hasItem) {
+        setGameOver(true);
+        const answer = confirm(`You guessed it on the try! Play again?`);
+
+        if (answer) {
+          setGameOver(false);
+          ResetGame();
+          return;
+        };
+      };
+      setField(copyField)
+    };
+  };
 
   return (
     <>
@@ -67,14 +66,13 @@ const App = () => {
         ))}
       </div>
       <div className='triesWrapper'>
-          <Tries counter={count}/>
+        <Tries counter={count} />
       </div>
       <div className='btnWrapper'>
-          <Reset onClickReset={ResetGame}/>
+        <Reset onClickReset={ResetGame} />
       </div>
     </>
-
-  )
-}
+  );
+};
 
 export default App
