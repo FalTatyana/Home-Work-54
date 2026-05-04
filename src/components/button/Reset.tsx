@@ -1,4 +1,4 @@
-import "./reset.css"
+import "./Reset.css"
 
 interface Props {
   onClickReset: () => void
